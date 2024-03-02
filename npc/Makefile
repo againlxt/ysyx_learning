@@ -6,8 +6,8 @@ sim:
 	@echo "Entre your contents"
 	@read contents
 	@cd $(contents)
-	@echo "entre your *.cpp, *.vcd file"
-	@read cpp vcd
-	@verilator --cc --exe --build -j 0 -Wall $(cpp) $(vcd) --trace
+	@echo "entre your *.cpp, *.v file"
+	@read cpp v
+	@verilator --cc --exe --build -j 0 -Wall $(cpp) $(v) --trace
 
 include ../Makefile

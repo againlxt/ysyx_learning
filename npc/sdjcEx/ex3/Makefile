@@ -4,7 +4,7 @@ INC_PATH ?=
 
 VERILATOR = verilator
 VERILATOR_CFLAGS += -MMD --build -cc  \
-				-O3 --x-assign fast --x-initial fast --noassert
+				-O3 --x-assign fast --x-initial fast --noassert --trace
 
 BUILD_DIR = ./build
 OBJ_DIR = $(BUILD_DIR)/obj_dir
@@ -21,8 +21,9 @@ $(SRC_AUTO_BIND): $(NXDC_FILES)
 
 # project source
 VSRCS = $(shell find $(abspath ./vsrc) -name "*.v")
-CSRCS = $(shell find $(abspath ./csrc) -name "*.c" -or -name "*.cc" -or -name "*.cpp")
+CSRCS = $(shell find $(abspath ./csrc) -name "*.c" -or -name "*.cc" -or -name "*.cpp" -not -name "sim_main.cpp")
 CSRCS += $(SRC_AUTO_BIND)
+VERCS = $(shell find $(abspath ./csrc) -name "sim_main.c")
 
 # rules for NVBoard
 include $(NVBOARD_HOME)/scripts/nvboard.mk
@@ -45,5 +46,14 @@ run: $(BIN)
 
 clean:
 	rm -rf $(BUILD_DIR)
+	rm -rf ./*.vcd
+
+versim: $(VSRCS) $(CSRCS)
+	@rm -rf $(OBJ_DIR)
+	$(VERILATOR) $(VERILATOR_CFLAGS) \
+		--top-module $(TOPNAME) $(abspath ./csrc/sim_main.cpp) $(VSRCS) \
+		--Mdir $(OBJ_DIR) --exe -o $(abspath $(BIN))
+	$(BUILD_DIR)/top
+	gtkwave ./*.vcd
 
 .PHONY: default all clean run

@@ -11,10 +11,6 @@ int main() {
 
 	while(1) {
 		nvboard_update();
-		int a = rand() & 1;
-		int b = rand() & 1;
-		dut.a = a;
-		dut.b = b;
 		dut.eval();
 	}
 }

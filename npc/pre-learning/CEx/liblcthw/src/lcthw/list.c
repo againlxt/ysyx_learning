@@ -8,6 +8,7 @@ List *List_create()
 
 void List_destroy(List *list)
 {
+    check(list != NULL, "Failed to destory list");
     LIST_FOREACH(list, first, next, cur)
 
     free(list->last);
@@ -17,6 +18,7 @@ void List_destroy(List *list)
 
 void List_clear(List *list)
 {
+    check(list != NULL, "Failed to clear list");
     LIST_FOREACH(list, first, next, cur)
 }
 
@@ -33,8 +35,10 @@ void List_push(List *list, void *value)
     ListNode *node = calloc(1, sizeof(ListNode));
     check_mem(node);
 
+    check(value != NULL, "Failed to push list, value is NULL");
     node->value = value;
 
+    check(list != NULL, "Failed to push list");
     if(list->last == NULL) {
         list->first = node;
         list->last = node;
@@ -52,6 +56,7 @@ error:
 
 void *List_pop(List *list)
 {
+    check(list != NULL, "Failed to pop list");
     ListNode *node = list->last;
     return node != NULL ? List_remove(list, node) : NULL;
 }
@@ -61,8 +66,10 @@ void List_unshift(List *list, void *value)
     ListNode *node = calloc(1, sizeof(ListNode));
     check_mem(node);
 
+    check(value != NULL, "Failed to unshift list, value is NULL");
     node->value = value;
 
+    check(list != NULL, "Failed to unshift list");
     if(list->first == NULL) {
         list->first = node;
         list->last = node;
@@ -80,6 +87,7 @@ error:
 
 void *List_shift(List *list)
 {
+    check(list != NULL, "Failed to shift list");
     ListNode *node = list->first;
     return node != NULL ? List_remove(list, node) : NULL;
 }

@@ -8,11 +8,7 @@ List *List_create()
 
 void List_destroy(List *list)
 {
-    LIST_FOREACH(list, first, next, cur) {
-        if(cur->prev) {
-            free(cur->prev);
-        }
-    }
+    LIST_FOREACH(list, first, next, cur)
 
     free(list->last);
     free(list);
@@ -21,9 +17,7 @@ void List_destroy(List *list)
 
 void List_clear(List *list)
 {
-    LIST_FOREACH(list, first, next, cur) {
-        free(cur->value);
-    }
+    LIST_FOREACH(list, first, next, cur)
 }
 
 

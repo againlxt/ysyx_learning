@@ -26,7 +26,6 @@ char *test_destroy()
 
 }
 
-
 char *test_push_pop()
 {
     List_push(list, test1);
@@ -97,6 +96,21 @@ char *test_shift()
 }
 
 
+char *test_copy() {
+    list = List_create();
+    List *list_copy = List_create();
+    mu_assert(list != NULL, "Failed to create list.");
+
+    List_push(list, test1);
+    List_push(list, test2);
+    List_push(list, test3);
+
+    list_copy = List_copy(list);
+    mu_assert(List_eqa(list, list_copy) == 1, "Wrong to copy");
+    return NULL;
+}
+
+
 
 char *all_tests() {
     mu_suite_start();
@@ -107,6 +121,7 @@ char *all_tests() {
     mu_run_test(test_remove);
     mu_run_test(test_shift);
     mu_run_test(test_destroy);
+    mu_run_test(test_copy);
 
     return NULL;
 }

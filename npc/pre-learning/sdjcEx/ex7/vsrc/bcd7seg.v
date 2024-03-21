@@ -1,12 +1,13 @@
-module bcd7seg #(DATA_WIDTH = 4)(
-	input		[DATA_WIDTH-1:0]	idata,
+module bcd7seg (
+	input		[3:0]				idata,
 	input							enable,
+	input							endflag,
 	output reg	[7:0]				seg
 );
 	always @(*)
 	begin
-		if(!enable)
-			seg	= 8'b0000_0000;
+		if(!enable || endflag)
+			seg	= 8'b1111_1111;
 		else
 		begin
 			case (idata)
